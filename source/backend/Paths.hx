@@ -12,6 +12,10 @@ import backend.Mods;
 
 class Paths
 {
+#if html5
+	public static var webAssetRoot:String = "https://bikkinhorrov3webaessestv1.netlify.app/";
+#end
+
 	inline public static var SOUND_EXT = "ogg"; // #if web "mp3" #else "ogg" #end;
 	inline public static var VIDEO_EXT = "mp4";
 
