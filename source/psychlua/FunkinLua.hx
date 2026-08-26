@@ -1777,7 +1777,9 @@ class FunkinLua {
 
 	function findScript(scriptFile:String, ext:String = '.lua')
 	{
-		if(!scriptFile.endsWith(ext)) scriptFile += ext;
+		var normalizedScriptFile:String = scriptFile.toLowerCase();
+		var hasHScriptExtension:Bool = ext == '.hx' && normalizedScriptFile.endsWith('.hxc');
+		if(!normalizedScriptFile.endsWith(ext) && !hasHScriptExtension) scriptFile += ext;
 		var path:String = Paths.getPath(scriptFile, TEXT);
 		#if MODS_ALLOWED
 		if(NativeFileSystem.exists(path))
@@ -1795,6 +1797,19 @@ class FunkinLua {
 		{
 			return scriptFile;
 		}
+		#if HSCRIPT_ALLOWED
+		if (ext == '.hx')
+		{
+			var alternateScriptFile:String = scriptFile.substr(0, scriptFile.length - 3) + 'hxc';
+			var alternatePath:String = Paths.getPath(alternateScriptFile, TEXT);
+			#if MODS_ALLOWED
+			if (NativeFileSystem.exists(alternatePath) || NativeFileSystem.exists(alternateScriptFile))
+			#else
+			if (Assets.exists(alternatePath, TEXT) || Assets.exists(alternateScriptFile, TEXT))
+			#end
+				return alternatePath;
+		}
+		#end
 		return null;
 	}
 

@@ -457,7 +457,7 @@ class PlayState extends MusicBeatState
 			#end
 
 			#if HSCRIPT_ALLOWED
-			if (file.toLowerCase().endsWith('.hx'))
+			if (file.toLowerCase().endsWith('.hx') || file.toLowerCase().endsWith('.hxc'))
 				initHScript(folder + file);
 			#end
 		}
@@ -638,7 +638,7 @@ class PlayState extends MusicBeatState
 			#end
 
 			#if HSCRIPT_ALLOWED
-			if (file.toLowerCase().endsWith('.hx'))
+			if (file.toLowerCase().endsWith('.hx') || file.toLowerCase().endsWith('.hxc'))
 				initHScript(folder + file);
 			#end
 		}
@@ -4055,6 +4055,17 @@ public function startHScriptsNamed(scriptFile:String)
 	#else
 	var scriptToLoad:String = Paths.getSharedPath(scriptFile);
 	#end
+	if (!NativeFileSystem.exists(scriptToLoad) && scriptFile.toLowerCase().endsWith('.hx'))
+	{
+		var alternateScriptFile:String = scriptFile.substr(0, scriptFile.length - 3) + 'hxc';
+		#if MODS_ALLOWED
+		scriptToLoad = Paths.modFolders(alternateScriptFile);
+		if (!NativeFileSystem.exists(scriptToLoad))
+			scriptToLoad = Paths.getSharedPath(alternateScriptFile);
+		#else
+		scriptToLoad = Paths.getSharedPath(alternateScriptFile);
+		#end
+	}
 
 	if (NativeFileSystem.exists(scriptToLoad))
 	{

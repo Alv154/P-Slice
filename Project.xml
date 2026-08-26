@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project
 	xmlns="http://lime.openfl.org/project/1.0.4"
+	 xmlns:config="http://lime.openfl.org/project/1.0.4"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://lime.openfl.org/project/1.0.4 http://lime.openfl.org/xsd/project-1.0.4.xsd">
 	<!-- _________________________ Application Settings _________________________ -->
@@ -49,7 +50,7 @@
 	</section>
 
 	<!-- Adds support for Psych's lua/HScript files-->
-	<define name="HSCRIPT_ALLOWED" if="desktop || mobile" />
+	<define name="HSCRIPT_ALLOWED" if="desktop || mobile || web" />
 	<define name="LUA_ALLOWED" if="cpp" />
 
 	<!-- Enables Discord's Rich Presence integration-->
@@ -181,7 +182,6 @@
 		<assets path="assets/secrets" rename="assets/shared" exclude="*.ogg" if="web" />
 		<assets path="assets/secrets" rename="assets/shared" unless="web" />
 	</section>
->
 	<section if="TRANSLATIONS_ALLOWED">
 		<assets path="assets/translations" rename="assets" exclude="*.ogg" if="web" />
 		<assets path="assets/translations" rename="assets" unless="web" />
@@ -213,7 +213,7 @@
 			unless="web" />
 		<assets path="assets/base_game/shared" rename="assets/shared" unless="web" />
 	</section>
-	<assets path="assets/web_mod" rename="assets" if="web" />
+	<assets path="assets/web_mod" rename="assets" if="web" embed="true" />
 
 	<section if="MODS_ALLOWED">
 		<assets path='example_mods' rename='mods' embed='false' />
