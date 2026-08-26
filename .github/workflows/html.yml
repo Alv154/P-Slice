@@ -21,27 +21,38 @@ jobs:
 
       - name: Restore Libraries for compilation
         id: load-lib-cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           # not caching the bin folder to prevent asset duplication and stuff like that
           key: ${{ env.cacheLibrariesPath }}
-          fail-on-cache-miss: true
           enableCrossOsArchive: true
           path: |
             .haxelib/
           restore-keys: |
             ${{ env.cacheLibrariesPath }}
+
+      - name: Setup haxelib
+        if: steps.load-lib-cache.outputs.cache-hit != 'true'
+        run: haxelib newrepo
+
+      - name: Install Libraries
+        if: steps.load-lib-cache.outputs.cache-hit != 'true'
+        run: sh ./setup/unix.sh
+
       - name: Restore existing build cache for faster compilation
         id: load-cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
-          # not caching the bin folder to prevent asset duplication and stuff like that
+          # not caching the bin folder to prevent asset duplicvation and stuff like that
           key: cache-build-html5
           path: |
             export/release/html5/haxe/
             export/release/html5/obj/
           restore-keys: |
             cache-build-html5
+
+      - name: Build HTML5
+        run: haxelib run lime build html5 -final
             
       - name: Upload Artifact
         uses: actions/upload-artifact@main
@@ -70,7 +81,7 @@ jobs:
               }
             }
       - name: Uploading new cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           key: cache-build-html5
           path: |

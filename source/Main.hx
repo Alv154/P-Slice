@@ -88,7 +88,7 @@ class Main extends Sprite
 		try
 		{
 			trace("Pushing global mods");
-			#if LUA_ALLOWED
+			#if MODS_ALLOWED
 			Mods.pushGlobalMods();
 			#end
 			trace("Pushing top mod");

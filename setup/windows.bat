@@ -23,4 +23,4 @@ haxelib install hxdiscord_rpc 1.2.4 --quiet
 haxelib install hxvlc 2.2.2 --quiet --skip-dependencies
 haxelib git linc_luajit https://github.com/superpowers04/linc_luajit 1906c4a96f6bb6df66562b3f24c62f4c5bba14a7
 echo Finished!
-pause
+if "%~1"=="" pause

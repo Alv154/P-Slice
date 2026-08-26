@@ -164,6 +164,7 @@ class Mods
 				if(mod.trim().length < 1) continue;
 
 				var dat = mod.split("|");
+				if (dat.length < 2 || dat[0].trim().length < 1) continue;
 				list.all.push(dat[0]);
 				if (dat[1] == "1")
 					list.enabled.push(dat[0]);
@@ -187,6 +188,7 @@ class Mods
 			for (mod in CoolUtil.coolTextFile('modsList.txt'))
 			{
 				var dat:Array<String> = mod.split("|");
+				if (dat.length < 2) continue;
 				var folder:String = dat[0];
 				if(folder.trim().length > 0 && NativeFileSystem.exists(Paths.mods(folder)) && NativeFileSystem.isDirectory(Paths.mods(folder)) && !added.contains(folder))
 				{
@@ -232,12 +234,13 @@ class Mods
 		
 		#if MODS_ALLOWED
 		var list:Array<String> = Mods.parseList().enabled;
-		if(list != null && list[0] != null)
+		if(list != null && list.length > 0)
 			Mods.currentModDirectory = list[0];
 		#end
 	}
 
 	static function set_currentModDirectory(value:String):String {
+		if (value == null) value = '';
 		CrashServer.updateModDir(value);
 		return currentModDirectory = value;
 	}

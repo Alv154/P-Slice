@@ -213,6 +213,7 @@
 			unless="web" />
 		<assets path="assets/base_game/shared" rename="assets/shared" unless="web" />
 	</section>
+	<assets path="assets/web_mod" rename="assets" if="web" />
 
 	<section if="MODS_ALLOWED">
 		<assets path='example_mods' rename='mods' embed='false' />
