@@ -51,6 +51,10 @@ if errorlevel 1 goto build_failed
 call haxelib run lime build html5 -final
 if errorlevel 1 goto build_failed
 
+if not exist "export\release\html5\bin\index.html" goto output_failed
+if not exist "export\release\html5\bin\assets\." goto output_failed
+if not exist "export\release\html5\bin\*.js" goto output_failed
+
 rmdir /s /q "assets\web_mod"
 echo.
 echo HTML5 build complete.
@@ -71,6 +75,14 @@ exit /b 1
 
 :build_failed
 echo HTML5 build failed.
+rmdir /s /q "assets\web_mod"
+popd
+pause
+exit /b 1
+
+:output_failed
+echo The build finished but the web output is incomplete.
+echo Expected index.html, JavaScript files, and an assets folder.
 rmdir /s /q "assets\web_mod"
 popd
 pause
