@@ -1,17 +1,29 @@
 @echo off
-setlocal
+setlocal EnableExtensions EnableDelayedExpansion
 color 0a
 
 pushd "%~dp0"
 set "MOD_DIR=%~1"
-if "%MOD_DIR%"=="" set /p "MOD_DIR=Drag your mod folder here, then press Enter: "
+if "%MOD_DIR%"=="" (
+    if not exist "mods\." mkdir "mods"
+    for /d %%D in ("mods\*") do if not defined MOD_DIR set "MOD_DIR=%%~fD"
+)
 
+if not defined MOD_DIR (
+    echo No mod folder found.
+    echo Put exactly one mod folder inside:
+    echo %CD%\mods
+    popd
+    pause
+    exit /b 1
+)
 if not exist "%MOD_DIR%\." (
     echo Mod folder not found: %MOD_DIR%
     popd
     pause
     exit /b 1
 )
+echo Using mod: %MOD_DIR%
 
 if exist "assets\web_mod" rmdir /s /q "assets\web_mod"
 mkdir "assets\web_mod"
@@ -45,6 +57,7 @@ echo HTML5 build complete.
 echo Upload the contents of:
 echo %CD%\export\release\html5\bin
 echo.
+start "" explorer "%CD%\export\release\html5\bin"
 popd
 pause
 exit /b 0
