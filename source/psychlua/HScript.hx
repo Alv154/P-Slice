@@ -4,6 +4,7 @@ import flixel.FlxBasic;
 import objects.Character;
 import psychlua.LuaUtils;
 import psychlua.CustomSubstate;
+import mobile.backend.StorageUtil;
 
 #if LUA_ALLOWED
 import psychlua.FunkinLua;
