@@ -151,6 +151,45 @@ class Mods
 		return null;
 	}
 
+	public static function getModMetadata(folder:String):Dynamic
+	{
+		#if MODS_ALLOWED
+		var path:String = Paths.mods(folder + '/_polymod_meta.json');
+		if (NativeFileSystem.exists(path))
+		{
+			try
+			{
+				var rawJson:String = NativeFileSystem.getContent(path);
+				if (rawJson != null && rawJson.length > 0)
+					return tjson.TJSON.parse(rawJson);
+			}
+			catch (e:Dynamic)
+			{
+				trace('Could not read Polymod metadata for $folder: $e');
+			}
+		}
+		#end
+		return null;
+	}
+
+	public static function getModIconPath(folder:String):String
+	{
+		#if MODS_ALLOWED
+		var polymodIcon:String = Paths.mods(folder + '/_polymod_icon.png');
+		if (NativeFileSystem.exists(polymodIcon))
+			return polymodIcon;
+
+		var icon:String = Paths.mods(folder + '/pack.png');
+		if (NativeFileSystem.exists(icon))
+			return icon;
+
+		var pixelIcon:String = Paths.mods(folder + '/pack-pixel.png');
+		if (NativeFileSystem.exists(pixelIcon))
+			return pixelIcon;
+		#end
+		return null;
+	}
+
 	public static var updatedOnState:Bool = false;
 	inline public static function parseList():ModsList {
 		if(!updatedOnState) updateModList();

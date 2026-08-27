@@ -29,6 +29,8 @@ if exist "%MOD_DIR%\assets\." (
         if exist "%MOD_DIR%\%%D\." xcopy "%MOD_DIR%\%%D\*" "assets\web_mod\%%D\" /E /I /Y /H >nul
     )
 )
+if exist "%MOD_DIR%\_polymod_meta.json" copy /Y "%MOD_DIR%\_polymod_meta.json" "assets\web_mod\_polymod_meta.json" >nul
+if exist "%MOD_DIR%\_polymod_icon.png" copy /Y "%MOD_DIR%\_polymod_icon.png" "assets\web_mod\_polymod_icon.png" >nul
 if errorlevel 1 goto copy_failed
 
 call setup\windows.bat web

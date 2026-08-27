@@ -898,6 +898,7 @@ class ModItem extends FlxSpriteGroup
 
 		this.folder = folder;
 		pack = Mods.getPack(folder);
+		var polymodMetadata:Dynamic = Mods.getModMetadata(folder);
 
 		var path:String = Paths.mods('$folder/data/settings.json');
 		if (NativeFileSystem.exists(path))
@@ -931,8 +932,8 @@ class ModItem extends FlxSpriteGroup
 		add(text);
 
 		var isPixel = false;
-		var file:String = Paths.mods('$folder/pack.png');
-		if (!NativeFileSystem.exists(file))
+		var file:String = Mods.getModIconPath(folder);
+		if (file == null)
 		{
 			file = Paths.mods('$folder/pack-pixel.png');
 			isPixel = true;
@@ -954,6 +955,15 @@ class ModItem extends FlxSpriteGroup
 		icon.updateHitbox();
 
 		this.name = folder;
+		if (polymodMetadata != null)
+		{
+			if (polymodMetadata.title != null)
+				this.name = polymodMetadata.title;
+			else if (polymodMetadata.name != null)
+				this.name = polymodMetadata.name;
+			if (polymodMetadata.description != null)
+				this.desc = polymodMetadata.description;
+		}
 		if (pack != null)
 		{
 			if (pack.name != null)
